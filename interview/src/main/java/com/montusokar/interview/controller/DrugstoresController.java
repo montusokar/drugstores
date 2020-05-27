@@ -1,5 +1,8 @@
 package com.montusokar.interview.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,21 +24,26 @@ import com.montusokar.interview.service.DrugstoreService;
 @RestController
 class DrugstoresController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DrugstoresController.class);
+
 	@Autowired
 	DrugstoreService drugstoreService;
 
 	@GetMapping("/farmacias/list")
 	DrugstoreList listDrugstores() throws Exception {
+		LOGGER.info("Retrieving loaded drugstores");
 		return drugstoreService.listDrugstores();
 	}
 
 	@GetMapping("/farmacias/load")
 	DrugstoreList loadDrugstores() throws Exception {
+		LOGGER.info("Getting drugstores from datasource");
 		return drugstoreService.retrieveDrugstores();
 	}
 
 	@PostMapping("/farmacias/filter")
 	DrugstoreList filterDrugstores(@RequestBody Filter filter) {
+		LOGGER.info("Filtering drugstores by comuna: " + filter.getComuna());
 		return drugstoreService.retrieveByComuna(filter.getComuna());
 	}
 
